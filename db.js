@@ -1,19 +1,12 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 
-//PLEASE EDIT YOUR MONGO DB CONNECTION HERE
-/*YOU CAN FIND SAMPLE COLLECTION at mongodb_collections folder */
-var mongoURL = "mongodb+srv://mili-mb:Qop87AEmHES8lWEe@cluster0.aony1.mongodb.net/mern-hotel";
+const mongoURL = process.env.MONGO_URI || "mongodb+srv://mili-mb:Qop87AEmHES8lWEe@cluster0.aony1.mongodb.net/mern-hotel?retryWrites=true&w=majority";
 
-mongoose.connect(mongoURL, { useUnifiedTopology: true, useNewUrlParser: true });
+console.log("Mongo URL:", mongoURL);
 
-var connection = mongoose.connection;
-
-connection.on("error", () => {
-  console.log("Mongo DB Connection Failed");
-});
-
-connection.on("connected", () => {
-  console.log("Mongo DB Connection Successful");
-});
+mongoose.connect(mongoURL, { useUnifiedTopology: true, useNewUrlParser: true })
+  .then(() => console.log("Mongo DB Connection Successful"))
+  .catch((err) => console.error("Mongo DB Connection Failed:", err.message));
 
 module.exports = mongoose;
